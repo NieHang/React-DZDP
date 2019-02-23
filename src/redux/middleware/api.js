@@ -32,6 +32,7 @@ export default store => next => action => {
   const actionWith = data => {
     const finalAction = [...action, ...data];
     delete finalAction[FETCH_DATA];
+    return finalAction;
   }
 
   const [requestType, successType, failureType] = types;
