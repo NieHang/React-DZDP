@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ErrorToast from '../../components/ErrorToast';
-import './style.css';
 import { getError } from '../../redux/modules/app';
 import { actions as appActions } from '../../redux/modules/app';
 import { bindActionCreators } from 'redux';
