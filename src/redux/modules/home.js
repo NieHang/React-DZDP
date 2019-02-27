@@ -1,4 +1,4 @@
-import { combineReducer } from 'redux';
+import { combineReducers } from 'redux';
 import url from '../../utils/url';
 import { FETCH_DATA } from '../middleware/api';
 import { schema } from './entities/products';
@@ -129,7 +129,7 @@ const discounts = (state = initialState.discounts, action) => {
   }
 };
 
-const reducer = combineReducer({
+const reducer = combineReducers({
   discounts,
   likes
 })
