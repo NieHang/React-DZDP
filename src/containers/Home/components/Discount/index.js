@@ -41,11 +41,11 @@ export default class Discount extends Component {
   render() {
     return (
       <div className='discount'>
-        <a className='discount__header'>
+        <span className='discount__header'>
           <span className='discount__title'>超值特惠</span>
           <span className='discount__more'>更多特惠</span>
           <span className='discount__arrow' />
-        </a>
+        </span>
         <div className='discount__content'>
           {dataSource.map(item => (
             <a key={item.id} className='discount__item' href={item.url}>
