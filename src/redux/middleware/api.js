@@ -30,7 +30,7 @@ export default store => next => action => {
 
   // 详细请看7-9 前端架构之抽象2：网络请求层封装（redux中间件）（2）
   const actionWith = data => {
-    const finalAction = [...action, ...data];
+    const finalAction = {...action, ...data};
     delete finalAction[FETCH_DATA];
     return finalAction;
   }
