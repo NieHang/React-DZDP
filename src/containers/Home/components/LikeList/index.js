@@ -30,8 +30,14 @@ export default class LikeList extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('scroll', this.handleScroll);
-    this.props.fetchData();
+    if (this.props.pageCount < 3) {
+      document.addEventListener('scroll', this.handleScroll);
+    } else {
+      this.removeListener = true;
+    }
+    if (this.props.pageCount === 0) {
+      this.props.fetchData();
+    }
   }
 
   componentDidUpdate() {
