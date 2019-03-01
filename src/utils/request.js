@@ -1,5 +1,5 @@
 const headers = new Headers({
-  Accept: 'application/json',
+  'Accept': 'application/json',
   'Content-type': 'application/json'
 });
 
@@ -9,7 +9,7 @@ function get(url) {
     headers
   })
     .then(response => {
-      handleResponse(url, response);
+      return handleResponse(url, response);
     })
     .catch(err => {
       console.error(`Request failed. Url = ${url}. Message = ${err}`);
