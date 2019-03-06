@@ -3,6 +3,7 @@ import ProductOverview from './components/ProductOverview';
 import ShopInfo from './components/ShopInfo';
 import Detail from './components/Detail';
 import Remark from './components/Remark';
+import BuyButton from './components/BuyButton';
 
 export default class ProductDetail extends Component {
 	render() {
@@ -12,6 +13,7 @@ export default class ProductDetail extends Component {
 				<ShopInfo />
 				<Detail />
 				<Remark />
+				<BuyButton />
 			</div>
 		);
 	}
