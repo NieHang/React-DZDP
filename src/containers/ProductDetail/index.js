@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../../components/Header';
 import ProductOverview from './components/ProductOverview';
 import ShopInfo from './components/ShopInfo';
 import Detail from './components/Detail';
@@ -9,6 +10,7 @@ export default class ProductDetail extends Component {
 	render() {
 		return (
 			<div>
+				<Header title='团购详情' obBack={this.handleBack} grey/>
 				<ProductOverview />
 				<ShopInfo />
 				<Detail />
@@ -16,5 +18,9 @@ export default class ProductDetail extends Component {
 				<BuyButton />
 			</div>
 		);
+	}
+
+	handleBack = () => {
+		
 	}
 }
