@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-
+import { Link } from 'react-router-dom';
 import './style.css';
 
 export default class BuyButton extends Component {
   render() {
+    const {productId} = this.props;
     return (
-      // eslint-disable-next-line jsx-a11y/anchor-is-valid
-      <a className="buyButton">
+      <Link className="buyButton" to={`/purchase/${productId}`}>
         立即购买
-      </a>
+      </Link>
     )
   }
 }

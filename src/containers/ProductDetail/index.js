@@ -15,11 +15,14 @@ class ProductDetail extends Component {
 		return (
 			<div>
 				<Header title='团购详情' obBack={this.handleBack} grey/>
-				<ProductOverview data={product}/>
-				<ShopInfo />
-				<Detail />
-				<Remark />
-				<BuyButton />
+				{product && <ProductOverview data={product}/>}
+				{relatedShop && <ShopInfo data={relatedShop} total={product.shopIds.length}/>}
+				{product && 
+					(<div>
+						<Detail data={product}/>
+						<Remark data={product}/>
+						<BuyButton product={product.id}/>
+					</div>)}
 			</div>
 		);
 	}
