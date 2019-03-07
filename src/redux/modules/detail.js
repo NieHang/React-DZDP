@@ -134,7 +134,7 @@ export const getRelatedShop = (state, productId) => {
   const product = getProductById(state, productId);
   let shopId = product ? product.nearestShop : null;
   if (shopId) {
-    return getShopById(shopId);
+    return getShopById(state, shopId);
   }
   return null;
 }
