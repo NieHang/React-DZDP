@@ -60,7 +60,7 @@ const fetchProductDetail = (endpoint, id) => ({
 			types.FETCH_PRODUCT_DETAIL_FAILURE
 		],
 		endpoint,
-		productSchema
+		schema: productSchema
   },
   id
 });
@@ -78,7 +78,7 @@ const fetchShopById = (endpoint, id) => ({
 			types.FETCH_SHOP_FAILURE
 		],
 		endpoint,
-		shopSchema
+		schema: shopSchema
   },
   id
 });
