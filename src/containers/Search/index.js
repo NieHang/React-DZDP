@@ -74,7 +74,8 @@ class Search extends Component {
 		const { setInputText, addHistoryKeyword } = this.props.searchActions;
 		setInputText(item.keyword);
 		addHistoryKeyword(item.id);
-		// TODO 跳转搜索结果页逻辑
+		// 跳转搜索结果页逻辑
+		this.props.history.push('/search_result');
 	}
 
 	// 清除历史记录
