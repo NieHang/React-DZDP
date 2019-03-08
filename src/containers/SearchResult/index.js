@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+
 import SearchHeader from './components/SearchHeader';
 import KeywordBox from './components/KeywordBox';
 import Banner from '../../components/Banner';
 import ShopList from './components/ShopList';
 
-export default class SearchResult extends Component {
+import { getSearchedShops, getCurrentKeyword } from '../../redux/modules/search';
+
+class SearchResult extends Component {
 	render() {
+		const { shops, currentKeyword } = this.props;
 		return (
 			<div>
 				<SearchHeader onBack={this.handleBack} onSearch={this.handleSearch} />
-				<KeywordBox text="text" />
+				<KeywordBox text={currentKeyword} />
 				<Banner dark/>
-				<ShopList />
+				<ShopList data={shops}/>
 			</div>
 		);
 	}
@@ -24,3 +29,10 @@ export default class SearchResult extends Component {
 		this.props.history.push('/search');
 	};
 }
+
+const mapStateToProps = (state, props) => ({
+	shops: getSearchedShops(state),
+	currentKeyword: getCurrentKeyword(state)
+})
+
+export default connect(mapStateToProps, null)(SearchResult);

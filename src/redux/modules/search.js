@@ -1,7 +1,7 @@
 import url from '../../utils/url';
 import { FETCH_DATA } from '../middleware/api';
 import { schema as keywordSchema, getKeywordById } from './entities/keywords';
-import { schema as shopSchema } from './entities/keywords';
+import { schema as shopSchema, getShopById } from './entities/shops';
 import { combineReducers } from "redux";
 
 export const types = {
@@ -41,7 +41,7 @@ const initialState = {
 
   },
   historyKeywords: [],  //保存关键词id
-  searchedShopByKeyword: {}
+  searchedShopsByKeyword: {}
 }
 
 export const actions = {
@@ -69,8 +69,8 @@ export const actions = {
   },
   loadRelatedShops: keyword => {
     return (dispatch, getState) => {
-      const { searchShopsByKeyword } = getState().search;
-      if (searchShopsByKeyword[keyword]) {
+      const { searchedShopsByKeyword } = getState().search;
+      if (searchedShopsByKeyword[keyword]) {
         return null;
       }
       const endpoint = url.getRelatedShops(keyword);
@@ -275,4 +275,23 @@ export const getInputText = state => state.search.inputText;
 
 export const getHistoryKeywords = state => {
   return state.search.historyKeywords.map(id => getKeywordById(state, id));
+}
+
+// 获取店铺列表
+export const getSearchedShops = state => {
+  const keywordId = state.search.historyKeywords[0];
+  if (!keywordId) {
+    return [];
+  }
+  const shops = state.search.searchedShopsByKeyword[keywordId];
+  return shops.ids.map(id => getShopById(state, id));
+}
+
+// 获取当前关键词
+export const getCurrentKeyword = state => {
+  const keywordId = state.search.historyKeywords[0];
+  if (!keywordId) {
+    return '';
+  }
+  return getKeywordById(state, keywordId).keyword;
 }
