@@ -2,25 +2,19 @@ import React, { Component } from 'react';
 import './style.css';
 
 export default class SearchHistory extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: ['烤鸭', '火锅', '面条']
-		};
-	}
-
 	render() {
+		const { data } = this.props;
 		return (
 			<div className="searchHistory">
 				<div className="searchHistory__header">搜索记录</div>
 				<ul className="searchHistory__list">
-					{this.state.data.map((item, index) => (
+					{data.map((item, index) => (
 						<li
-							key={index}
-							onClick={this.handleClick}
+							key={item.id}
+							onClick={this.handleClick.bind(this, item)}
 							className="searchHistory__item"
 						>
-							{item}
+							{item.keyword}
 						</li>
 					))}
 				</ul>
@@ -31,13 +25,11 @@ export default class SearchHistory extends Component {
 		);
   }
   
-  handleClick = () => {
-    
+  handleClick = item => {
+    this.props.onClickItem(item);
   }
   
   handleClear = () => {
-    this.setState({
-      data: []
-    })
+    this.props.onClear();
   }
 }

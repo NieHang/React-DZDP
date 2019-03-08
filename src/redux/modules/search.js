@@ -1,6 +1,6 @@
 import url from '../../utils/url';
 import { FETCH_DATA } from '../middleware/api';
-import { schema as keywordSchema } from './entities/keywords';
+import { schema as keywordSchema, getKeywordById } from './entities/keywords';
 import { combineReducers } from "redux";
 
 export const types = {
@@ -55,8 +55,8 @@ export const actions = {
       if (relatedKeywords[text]) {
         return null;
       }
-      const endpoint = url.getRelatedKeywords();
-      return dispatch(fetchRelatedKeywords(endpoint));
+      const endpoint = url.getRelatedKeywords(text);
+      return dispatch(fetchRelatedKeywords(text, endpoint));
     } 
   },
   // 搜索框输入文本相关action
@@ -72,7 +72,7 @@ export const actions = {
     type: types.ADD_HISTORY_KEYWORD,
     text: keywordId
   }),
-  clearHistoryKeyword: () => ({
+  clearHistoryKeywords: () => ({
     type: types.CLEAR_HISTORY_KEYWORD
   }),
 }
@@ -118,9 +118,9 @@ const popularKeywords = (state = initialState.popularKeywords, action) => {
 
 const relatedKeywords = (state = initialState.relatedKeywords, action) => {
   switch (action.type) {
-    case types.FETCH_RELATED_KEYWORDS_REQUEST:
-    case types.FETCH_RELATED_KEYWORDS_SUCCESS:
-    case types.FETCH_RELATED_KEYWORDS_FAILURE:
+    case types.FETCH_RELEATED_KEYWORDS_REQUEST:
+    case types.FETCH_RELEATED_KEYWORDS_SUCCESS:
+    case types.FETCH_RELEATED_KEYWORDS_FAILURE:
       return {
         ...state,
         [action.text]: relatedKeywordsByText(state[action.text], action)
@@ -135,15 +135,15 @@ const relatedKeywordsByText = (
   action
 ) => {
   switch (action.type) {
-    case types.FETCH_RELATED_KEYWORDS_REQUEST:
+    case types.FETCH_RELEATED_KEYWORDS_REQUEST:
       return { ...state, isFetching: true };
-    case types.FETCH_RELATED_KEYWORDS_SUCCESS:
+    case types.FETCH_RELEATED_KEYWORDS_SUCCESS:
       return {
         ...state,
         isFetching: false,
         ids: state.ids.concat(action.response.ids)
       };
-    case types.FETCH_RELATED_KEYWORDS_FAILURE:
+    case types.FETCH_RELEATED_KEYWORDS_FAILURE:
       return { ...state, isFetching: false };
     default:
       return state;
@@ -171,7 +171,7 @@ const historyKeywords = (state = initialState.historyKeywords, action) => {
         return false;
       })
       return [action.text, ...data];
-    case types.CLEAR_HISTORY_KEYWORDS:
+    case types.CLEAR_HISTORY_KEYWORD:
       return [];
     default:
       return state;
@@ -186,3 +186,26 @@ const reducer = combineReducers({
 })
 
 export default reducer;
+
+// selectors
+export const getPopularKeywords = state => {
+  return state.search.popularKeywords.ids.map(id => getKeywordById(state, id))
+}
+
+export const getRelatedKeywords = state => {
+  const text = state.search.inputText;
+  if (!text || text.trim().length === 0) {
+    return [];
+  }
+  const relatedKeywords = state.search.relatedKeywords[text];
+  if (!relatedKeywords) {
+    return [];
+  }
+  return relatedKeywords.ids.map(id => getKeywordById(state, id));
+}
+
+export const getInputText = state => state.search.inputText;
+
+export const getHistoryKeywords = state => {
+  return state.search.historyKeywords.map(id => getKeywordById(state, id));
+}
