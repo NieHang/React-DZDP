@@ -4,7 +4,6 @@ import './style.css'
 export default class SearchBox extends Component {
   render() {
     const { inputText, relatedKeywords } = this.props;
-    console.log(relatedKeywords)
     return (
       <div className="searchBox">
         <div className="searchBox__container">
