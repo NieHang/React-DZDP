@@ -168,6 +168,7 @@ const historyKeywords = (state = initialState.historyKeywords, action) => {
         if(item !== action.text) {
           return true;
         }
+        return false;
       })
       return [action.text, ...data];
     case types.CLEAR_HISTORY_KEYWORDS:
