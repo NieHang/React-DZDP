@@ -21,7 +21,7 @@ export const actions = {
 	// 异步action, 执行登录
 	login: () => {
 		return (dispatch, getState) => {
-			const { username, password } = getState.login;
+			const { username, password } = getState().login;
 			if (
 				!(username && username.length > 0 && password && password.length > 0)
 			) {
@@ -88,3 +88,10 @@ const reducer = (state = initialState, action) => {
 }
 
 export default reducer;
+
+// selectors
+export const getUsername = state => state.login.username;
+
+export const getPassword = state => state.login.password;
+
+export const isLogin = state => state.login.status;
