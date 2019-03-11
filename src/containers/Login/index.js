@@ -14,8 +14,11 @@ import LoginForm from './components/LoginForm';
 
 class Login extends Component {
 	render() {
-		const { username, password, login } = this.props;
+		const { username, password, login, location: {state} } = this.props;
 		if (login) {
+			if (state && state.from) {
+			return <Redirect to={state.from} />;
+			}
 			return <Redirect to="/user" />;
 		}
 		return (
