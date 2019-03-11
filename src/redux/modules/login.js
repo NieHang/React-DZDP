@@ -1,9 +1,9 @@
 const initialState = {
-	username: '',
+	username: localStorage.getItem('username') || '',
 	password: '',
 	isFetching: false,
 	// 登录状态的标识
-	status: false
+	status: localStorage.getItem('login') || false
 };
 
 // action exports
@@ -31,15 +31,21 @@ export const actions = {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           dispatch(loginSuccess());
+          localStorage.setItem('username', username);
+          localStorage.setItem('login', true);
           resolve();
         }, 1000);
       })
 		};
   },
   
-  logout: () => ({
-    type: types.LOGOUT
-  }),
+  logout: () => {
+    localStorage.removeItem('username');
+    localStorage.removeItem('login');
+    return {
+      type: types.LOGOUT
+    }
+  },
   
   setUsername: (username) => ({
     type: types.SET_USERNAME,
