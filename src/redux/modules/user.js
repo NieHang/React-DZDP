@@ -62,3 +62,41 @@ const fetchOrders = endpoint => ({
     schema
   }
 })
+
+// reducer
+const orders = (state = initialState, action) => {
+	switch (action.type) {
+		case types.FETCH_ORDERS_REQUEST:
+			return {isFetching: true, ...state}
+		case types.FETCH_ORDERS_SUCCESS:
+			const toPayIds = action.response.ids.filter(id => action.response.orders[id].type === TO_PAY_TYPE);
+			const availableIds = action.response.ids.filter(id => action.response.orders[id].type === AVAILABLE_TYPE);
+			const refundIds = action.response.ids.filter(id => action.response.orders[id].type === REFUND_TYPE);
+			return {
+				...state,
+				isFetching: false,
+				ids: state.ids.concat(action.response.ids),
+        toPayIds: state.toPayIds.concat(toPayIds),
+        availableIds: state.availableIds.concat(availableIds),
+        refundIds: state.refundIds.concat(refundIds)
+			}
+		default:
+			return state;
+	}
+}
+
+const currentTab = (state = initialState.currentTab, action) => {
+  switch(action.type){
+    case types.SET_CURRENT_TAB:
+      return action.index;
+    default:
+      return state;
+  }
+}
+
+const reducer = combineReducers({
+  currentTab,
+  orders
+})
+
+export default reducer;
