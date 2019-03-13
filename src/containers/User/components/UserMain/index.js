@@ -41,7 +41,7 @@ class UserMain extends Component {
 
 	renderOrderList = data => {
 		return data.map(item => {
-			return <OrderItem key={item.id} data={item} />;
+			return <OrderItem key={item.id} data={item} onRemove={this.handleRemove}/>;
 		});
 	};
 
@@ -54,6 +54,10 @@ class UserMain extends Component {
 			</div>
 		);
 	};
+
+	handleRemove = () => {
+		
+	}
 
 	handleClickTab = index => {
 		this.props.onSetCurrentTab(index);
