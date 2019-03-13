@@ -5,7 +5,8 @@ import {
 	TO_PAY_TYPE,
 	AVAILABLE_TYPE,
 	REFUND_TYPE,
-	getOrderById
+	getOrderById,
+	actions as orderActions
 } from './entities/orders';
 import { combineReducers } from 'redux';
 
@@ -20,7 +21,11 @@ const initialState = {
 		// 退款订单id
 		refundIds: []
 	},
-	currentTab: 0
+	currentTab: 0,
+	currentOrder: {
+		id: null,
+		isDeleting: false
+	}
 };
 
 export const types = {
@@ -29,7 +34,11 @@ export const types = {
 	FETCH_ORDERS_SUCCESS: 'USER/FETCH_ORDERS_SUCCESS',
 	FETCH_ORDERS_FAILURE: 'USER/FETCH_ORDERS_FAILURE',
 	//设置当选选中的tab
-	SET_CURRENT_TAB: 'USER/SET_CURRENT_TAB'
+	SET_CURRENT_TAB: 'USER/SET_CURRENT_TAB',
+	//删除订单
+	DELETE_ORDER_REQUEST: 'USER/DELETE_ORDER_REQUEST',
+	DELETE_ORDER_SUCCESS: 'USER/DELETE_ORDER_SUCCESS',
+	DELETE_ORDER_FAILURE: 'USER/DELETE_ORDER_FAILURE',
 };
 
 export const actions = {
@@ -48,8 +57,33 @@ export const actions = {
 	setCurrentTab: index => ({
 		type: types.SET_CURRENT_TAB,
 		index
-	})
+	}),
+	// 删除订单
+	removeOrder: () => {
+		return ( dispatch, getState ) => {
+			const { id } = getState().user.currentOrder;
+			if (id) {
+				dispatch(deleteOrderRequest());
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
+						dispatch(deleteOrderSuccess(id));
+						dispatch(orderActions.deleteOrder(id));
+						resolve();
+					}, 500);
+				})
+			}
+		}
+	}
 };
+
+const deleteOrderRequest = () => ({
+	type: types.DELETE_ORDER_REQUEST
+})
+
+const deleteOrderSuccess = orderId => ({
+	type: types.DELETE_ORDER_SUCCESS,
+	orderId
+})
 
 const fetchOrders = endpoint => ({
 	[FETCH_DATA]: {

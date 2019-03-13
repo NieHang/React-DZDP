@@ -15,7 +15,28 @@ export const AVAILABLE_TYPE = 3;
 // 退款
 export const REFUND_TYPE = 4;
 
-const reducer = createReducer(schema.name);
+export const types = {
+	// 删除订单
+	DELETE_ORDER: 'ORDERS/DELETE_ORDER'
+}
+
+export const actions = {
+	deleteOrder: orderId => ({
+		type: types.DELETE_ORDER,
+		orderId
+	})
+}
+
+const normalReducer = createReducer(schema.name);
+
+const reducer = (state = {}, action) => {
+  if(action.type === types.DELETE_ORDER) {
+    const {[action.orderId]: deleteOrder, ...restOrders} = state;
+    return restOrders;
+  } else {
+    return normalReducer(state, action)
+  }
+}
 
 export default reducer;
 
