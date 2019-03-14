@@ -58,10 +58,6 @@ export const types = {
 	POST_COMMENT_REQUEST: 'USER/POST_COMMENT_REQUEST',
 	POST_COMMENT_SUCCESS: 'USER/POST_COMMENT_SUCCESS',
 	POST_COMMENT_FAILURE: 'USER/POST_COMMENT_FAILURE',
-	//提交评价
-	POST_COMMENT_REQUEST: 'USER/POST_COMMENT_REQUEST',
-	POST_COMMENT_SUCCESS: 'USER/POST_COMMENT_SUCCESS',
-	POST_COMMENT_FAILURE: 'USER/POST_COMMENT_FAILURE'
 };
 
 export const actions = {
@@ -282,4 +278,21 @@ export const getDeletingOrderId = state => {
 	return state.user.currentOrder && state.user.currentOrder.isDeleting
 		? state.user.currentOrder.id
 		: null;
+};
+
+// 获取正在评价的订单id
+export const getCommentingOrderId = state => {
+  return state.user.currentOrder && state.user.currentOrder.isCommenting
+    ? state.user.currentOrder.id
+    : null;
+};
+
+// 获取评论信息
+export const getCurrentOrderComment = state => {
+  return state.user.currentOrder ? state.user.currentOrder.comment : "";
+};
+
+// 获取订单评级/打分
+export const getCurrentOrderStars = state => {
+  return state.user.currentOrder ? state.user.currentOrder.stars : 0;
 };
