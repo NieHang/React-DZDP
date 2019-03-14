@@ -13,40 +13,42 @@ import SearchResult from '../SearchResult';
 import Login from '../Login';
 import PrivateRouter from '../PrivateRouter';
 import User from '../User';
+import Purchase from '../Purchase';
 
 class App extends Component {
-  render() {
-    const {
-      error,
-      appActions: { clearError }
-    } = this.props;
-    return (
-      <div className='App'>
-        <Router>
-          <Switch>
-            <Route path='/login' component={Login}/>
-            <PrivateRouter path='/user' component={User}/>
-            <Route path='/detail/:id' component={ProductDetail}/>
-            <Route path='/search' component={Search}></Route>
-            <Route path='/search_result' component={SearchResult}></Route>
-            <Route path='/' component={Home} />
-          </Switch>
-        </Router>
-        {error ? <ErrorToast msg={error} clearError={clearError} /> : null}
-      </div>
-    );
-  }
+	render() {
+		const {
+			error,
+			appActions: { clearError }
+		} = this.props;
+		return (
+			<div className="App">
+				<Router>
+					<Switch>
+						<Route path="/login" component={Login} />
+						<PrivateRouter path="/user" component={User} />
+						<Route path="/detail/:id" component={ProductDetail} />
+						<Route path="/search" component={Search} />
+						<Route path="/search_result" component={SearchResult} />
+						<PrivateRouter path="/purchase/:id" component={Purchase} />
+						<Route path="/" component={Home} />
+					</Switch>
+				</Router>
+				{error ? <ErrorToast msg={error} clearError={clearError} /> : null}
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = (state, props) => ({
-  error: getError(state)
+	error: getError(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  appActions: bindActionCreators(appActions, dispatch)
+	appActions: bindActionCreators(appActions, dispatch)
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(App);
