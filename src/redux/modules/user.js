@@ -12,9 +12,17 @@ import {
 import { actions as commentActions } from './entities/comments';
 import { combineReducers } from 'redux';
 
+const typeToKey = {
+  [TO_PAY_TYPE]: "toPayIds",
+  [AVAILABLE_TYPE]: "availableIds",
+  [REFUND_TYPE]: "refundIds"
+};
+
 const initialState = {
 	orders: {
 		isFetching: false,
+		// 判断个人中心页是否抓取过mock数据
+		fetched: false,
 		ids: [],
 		// 待付款的订单id
 		toPayIds: [],
@@ -57,15 +65,15 @@ export const types = {
 	// 提交评价
 	POST_COMMENT_REQUEST: 'USER/POST_COMMENT_REQUEST',
 	POST_COMMENT_SUCCESS: 'USER/POST_COMMENT_SUCCESS',
-	POST_COMMENT_FAILURE: 'USER/POST_COMMENT_FAILURE',
+	POST_COMMENT_FAILURE: 'USER/POST_COMMENT_FAILURE'
 };
 
 export const actions = {
 	// 获取订单列表
 	loadOrders: () => {
 		return (dispatch, getState) => {
-			const { ids } = getState().user.orders;
-			if (ids.length > 0) {
+			const { fetched } = getState().user.orders;
+			if (fetched) {
 				return null;
 			}
 			const endpoint = url.getOrders();
@@ -192,6 +200,7 @@ const orders = (state = initialState.orders, action) => {
 			return {
 				...state,
 				isFetching: false,
+				fetched: true,
 				ids: state.ids.concat(action.response.ids),
 				toPayIds: state.toPayIds.concat(toPayIds),
 				availableIds: state.availableIds.concat(availableIds),
@@ -206,6 +215,19 @@ const orders = (state = initialState.orders, action) => {
 				availableIds: removeOrderId(state, 'availableIds', action.orderId),
 				refundIds: removeOrderId(state, 'refundIds', action.orderId)
 			};
+		case orderTypes.ADD_ORDER:
+			const { order } = action;
+			const key = typeToKey[order.type];
+			return key
+				? {
+						...state,
+						ids: [order.id].concat(state.ids),
+						[key]: [order.id].concat(state[key])
+				  }
+				: {
+						...state,
+						ids: [order.id].concat(state.ids)
+				  };
 		default:
 			return state;
 	}
@@ -282,17 +304,17 @@ export const getDeletingOrderId = state => {
 
 // 获取正在评价的订单id
 export const getCommentingOrderId = state => {
-  return state.user.currentOrder && state.user.currentOrder.isCommenting
-    ? state.user.currentOrder.id
-    : null;
+	return state.user.currentOrder && state.user.currentOrder.isCommenting
+		? state.user.currentOrder.id
+		: null;
 };
 
 // 获取评论信息
 export const getCurrentOrderComment = state => {
-  return state.user.currentOrder ? state.user.currentOrder.comment : "";
+	return state.user.currentOrder ? state.user.currentOrder.comment : '';
 };
 
 // 获取订单评级/打分
 export const getCurrentOrderStars = state => {
-  return state.user.currentOrder ? state.user.currentOrder.stars : 0;
+	return state.user.currentOrder ? state.user.currentOrder.stars : 0;
 };
