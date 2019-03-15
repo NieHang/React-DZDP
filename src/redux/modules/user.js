@@ -6,7 +6,6 @@ import {
 	TO_PAY_TYPE,
 	AVAILABLE_TYPE,
 	REFUND_TYPE,
-	getOrderById,
 	getAllOrders,
 	types as orderTypes,
 	actions as orderActions

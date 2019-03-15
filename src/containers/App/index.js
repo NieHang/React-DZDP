@@ -5,15 +5,16 @@ import ErrorToast from '../../components/ErrorToast';
 import { getError } from '../../redux/modules/app';
 import { actions as appActions } from '../../redux/modules/app';
 import { bindActionCreators } from 'redux';
+import AsyncComponent from '../../utils/AsyncComponent'
 
-import Home from '../Home';
-import ProductDetail from '../ProductDetail';
-import Search from '../Search';
-import SearchResult from '../SearchResult';
-import Login from '../Login';
-import PrivateRouter from '../PrivateRouter';
-import User from '../User';
-import Purchase from '../Purchase';
+const Home = AsyncComponent(() => import('../Home'));
+const ProductDetail = AsyncComponent(() => import('../ProductDetail'));
+const Search = AsyncComponent(() => import('../Search'));
+const SearchResult = AsyncComponent(() => import('../SearchResult'));
+const Login = AsyncComponent(() => import('../Login'));
+const PrivateRouter = AsyncComponent(() => import('../PrivateRouter'));
+const User = AsyncComponent(() => import('../User'));
+const Purchase = AsyncComponent(() => import('../Purchase'));
 
 class App extends Component {
 	render() {
