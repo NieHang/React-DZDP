@@ -2,6 +2,7 @@
   "name": "react-dzdp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://www.goahead.xin/react_dzdp/",
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
