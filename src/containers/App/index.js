@@ -24,7 +24,7 @@ class App extends Component {
 		} = this.props;
 		return (
 			<div className="App">
-				<Router>
+				<Router basename='/react_dzdp'>
 					<Switch>
 						<Route path="/login" component={Login} />
 						<PrivateRouter path="/user" component={User} />
